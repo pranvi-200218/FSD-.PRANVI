@@ -6,45 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY SHOP</title>
     <style>
-        table {
-            border: 3px solid rgb(91, 83, 91);
-            border-collapse: collapse;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        #data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
             width: 100%;
+            max-width: 1200px;
             margin: auto;
-            padding: 10px;
-            font-size: 25px;
-            color: rgb(12, 15, 24);
         }
         
-        th {
-            border: 3px solid rgb(74, 63, 74);
-            padding: 10px;
-            background-color: rgb(227, 177, 227);
-        }
-        
-        td {
-            border: 2px solid rgb(102, 102, 128);
-            padding: 10px;
+        .card {
+            background-color: white;
+            border: 2px solid #d3b8d3;
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
+        }
+        
+        .card img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        
+        .category {
+            display: inline-block;
+            background-color: #e3b1e3;
+            color: #4a3f4a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #7b4f7b;
         }
     </style>
 </head>
 
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>S.NO.</th>
-                <th>title</th>
-                <th>Image</th>
-                <th>Category</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody id="data">
-            <tr></tr>
-        </tbody>
-    </table>
+    <div id="data"></div>
+
     <script>
         const element = document.getElementById('data');
         const URL = 'https://dummyjson.com/products';
@@ -53,18 +65,22 @@
             try {
                 const pranvi = await fetch(URL);
                 const data = await pranvi.json();
-                console.log(data);
-                let row = "";
+
+                let cards = "";
+
                 data.products.map((i, index) => {
-                    row += `<tr>
-                        <td>${index+1}</td>
-                        <td>${i.title}</td>
-                        <td><img src="${i.images[0]}" alt="${i.title}" width="100"></td>
-                        <td>${i.category}</td>
-                        <td>$${i.price}</td>
-                    </tr>`;
+                    cards += `
+                        <div class="card">
+                            <img src="${i.images[0]}" alt="${i.title}">
+                            <h2>${i.title}</h2>
+                            <div class="category">${i.category}</div>
+                            <div class="price">$${i.price}</div>
+                        </div>
+                    `;
                 });
-                element.innerHTML = row;
+
+                element.innerHTML = cards;
+
             } catch (error) {
                 console.log(error);
             }
@@ -72,6 +88,8 @@
 
         loadproductdata();
     </script>
+
 </body>
 
 </html>
+```
