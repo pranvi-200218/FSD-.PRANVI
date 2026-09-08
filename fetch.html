@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY SHOP</title>
+    <style>
+        table {
+            border: 3px solid rgb(91, 83, 91);
+            border-collapse: collapse;
+            width: 100%;
+            margin: auto;
+            padding: 10px;
+            font-size: 25px;
+            color: rgb(12, 15, 24);
+        }
+        
+        th {
+            border: 3px solid rgb(74, 63, 74);
+            padding: 10px;
+            background-color: rgb(227, 177, 227);
+        }
+        
+        td {
+            border: 2px solid rgb(102, 102, 128);
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>S.NO.</th>
+                <th>title</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="data">
+            <tr></tr>
+        </tbody>
+    </table>
+    <script>
+        const element = document.getElementById('data');
+        const URL = 'https://dummyjson.com/products';
+
+        async function loadproductdata() {
+            try {
+                const pranvi = await fetch(URL);
+                const data = await pranvi.json();
+                console.log(data);
+                let row = "";
+                data.products.map((i, index) => {
+                    row += `<tr>
+                        <td>${index+1}</td>
+                        <td>${i.title}</td>
+                        <td><img src="${i.images[0]}" alt="${i.title}" width="100"></td>
+                        <td>${i.category}</td>
+                        <td>$${i.price}</td>
+                    </tr>`;
+                });
+                element.innerHTML = row;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loadproductdata();
+    </script>
+</body>
+
+</html>
