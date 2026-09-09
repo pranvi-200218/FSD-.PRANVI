@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY SHOP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        #data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        
+        .card {
+            background-color: white;
+            border: 2px solid #d3b8d3;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        
+        .category {
+            display: inline-block;
+            background-color: #e3b1e3;
+            color: #4a3f4a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #7b4f7b;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="data"></div>
+
+    <script>
+        const element = document.getElementById('data');
+        const URL = 'https://dummyjson.com/products';
+
+        async function loadproductdata() {
+            try {
+                const pranvi = await fetch(URL);
+                const data = await pranvi.json();
+
+                let cards = "";
+
+                data.products.map((i, index) => {
+                    cards += `
+                        <div class="card">
+                            <img src="${i.images[0]}" alt="${i.title}">
+                            <h2>${i.title}</h2>
+                            <div class="category">${i.category}</div>
+                            <div class="price">$${i.price}</div>
+                        </div>
+                    `;
+                });
+
+                element.innerHTML = cards;
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loadproductdata();
+    </script>
+
+</body>
+
+</html>
+```
